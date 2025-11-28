@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klinik Harapan Sehat - Pelayanan Kesehatan Terbaik</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Mermaid.js untuk Flowchart -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <!-- Font Awesome untuk ikon WA & Telepon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #f9fbfc; color: #333; }
+    .navbar-brand img { height: 55px; }
+    .hero {
+      background: linear-gradient(rgba(0,123,255,0.8), rgba(0,123,255,0.9)), 
+                  url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover; color: white; padding: 120px 0; text-align: center;
+    }
+    .flowchart { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    .wa-btn {
+      background: #25D366; color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: 600;
+    }
+    .wa-btn:hover { background: #128C7E; color: white; }
+    footer { background: #0d3b66; color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">
+        <!-- GANTI DENGAN LOGO KLINIK KAMU -->
+        <img src="https://via.placeholder.com/220x70/ffffff/0066ff?text=LOGO+KLINIK" alt="Logo Klinik Harapan Sehat" class="me-2">
+        Klinik Harapan Sehat
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#home">Beranda</a></li>
+          <li class="nav-item"><a class="nav-link" href="#profil">Profil</a></li>
+          <li class="nav-item"><a class="nav-link" href="#alur">Alur Pendaftaran</a></li>
+          <li class="nav-item"><a class="nav-link" href="#kontak">Kontak & Lokasi</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="container">
+      <h1 class="display-4 fw-bold">Klinik Harapan Sehat</h1>
+      <p class="lead mb-4">Pelayanan Kesehatan Profesional, Cepat, dan Nyaman untuk Seluruh Keluarga</p>
+      
+      <!-- Tombol Pendaftaran Online -->
+      <div class="mt-4">
+        <h4 class="mb-3">Daftar Online Sekarang (WhatsApp)</h4>
+        <a href="https://wa.me/6281234567890?text=Halo%20Klinik%20Harapan%20Sehat%2C%20saya%20ingin%20mendaftar%20rawat%20jalan" 
+           class="wa-btn fs-5 px-4 py-3" target="_blank">
+          <i class="fab fa-whatsapp"></i> 0812-3456-7890 (Klik untuk Chat WA)
+        </a>
+      </div>
+      <div class="mt-3 text-white">
+        <p><i class="fas fa-phone"></i> Telepon Pendaftaran: <strong>(021) 888-9999</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="container my-5">
+
+    <!-- Profil Klinik -->
+    <section id="profil" class="my-5">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h2 class="text-primary fw-bold">Tentang Klinik Kami</h2>
+          <p class="lead">Klinik Harapan Sehat adalah klinik pratama yang berpengalaman sejak 2018, melayani masyarakat dengan penuh kasih dan profesionalisme.</p>
+          <ul class="list-unstyled">
+            <li class="my-2"><i class="fas fa-check text-success"></i> Dokter Umum & Spesialis</li>
+            <li class="my-2"><i class="fas fa-check text-success"></i> Poli Gigi, KIA, dan Anak</li>
+            <li class="my-2"><i class="fas fa-check text-success"></i> Laboratorium & USG</li>
+            <li class="my-2"><i class="fas fa-check text-success"></i> Apotek 24 Jam</li>
+            <li class="my-2"><i class="fas fa-check text-success"></i> Bekerja sama dengan BPJS Kesehatan</li>
+          </ul>
+        </div>
+        <div class="col-lg-6 text-center">
+          <img src="https://images.unsplash.com/photo-1551601651-611c2c9e6e6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+               class="img-fluid rounded shadow" alt="Interior Klinik">
+        </div>
+      </div>
+    </section>
+
+    <!-- Flowchart Alur Pendaftaran Rawat Jalan -->
+    <section id="alur" class="my-5">
+      <h2 class="text-center mb-5 text-primary fw-bold">Alur Pendaftaran Pasien Rawat Jalan</h2>
+      <div class="flowchart">
+        <div class="mermaid">
+          flowchart TD
+              A[Pasien Datang ke Klinik] --> B{Punya BPJS / Asuransi?}
+              B -->|Ya| C[Ke Loket BPJS / Asuransi]
+              B -->|Tidak| D[Ke Loket Pendaftaran Umum]
+              
+              C --> E[Verifikasi Kartu & Administrasi]
+              D --> F[Isi Formulir & Bayar Biaya Pendaftaran]
+              
+              E --> G[Dapat Nomor Antrian]
+              F --> G
+              
+              G --> H[Menunggu di Ruang Tunggu]
+              H --> I[Dipanggil ke Poli Tujuan]
+              I --> J[Periksa oleh Dokter]
+              J --> K[Ada Resep / Tindakan?]
+              K -->|Ya| L[Ke Apotek atau Kasir]
+              K -->|Tidak| M[Selesai & Pulang]
+              L --> M
+              
+              style A fill:#007bff,stroke:#fff,color:#fff
+              style M fill:#28a745,stroke:#fff,color:#fff
+              style C fill:#ffc107,stroke:#fff,color:#000
+              style D fill:#fd7e14,stroke:#fff,color:#fff
+        </div>
+      </div>
+    </section>
+
+    <!-- Kontak & Lokasi -->
+    <section id="kontak" class="my-5 bg-light p-5 rounded shadow">
+      <h2 class="text-center mb-5 text-primary fw-bold">Kontak & Lokasi Klinik</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <h4><i class="fas fa-map-marker-alt text-primary"></i> Alamat</h4>
+          <p class="fs-5">Jl. Raya Ciledug No. 88, Kreo, Larangan<br>Tangerang - Banten 15154</p>
+          
+          <h4 class="mt-4"><i class="fas fa-phone text-primary"></i> Telepon & WhatsApp</h4>
+          <p class="fs-5">
+            <strong>Pendaftaran Online:</strong> <a href="https://wa.me/6281234567890" class="text-success">0812-3456-7890</a> (WA)<br>
+            <strong>Telepon Klinik:</strong> (021) 888-9999
+          </p>
+
+          <h4 class="mt-4"><i class="fas fa-clock text-primary"></i> Jam Operasional</h4>
+          <p class="fs-5">
+            Senin - Sabtu: 07.00 - 21.00 WIB<br>
+            Minggu & Hari Libur: 08.00 - 15.00 WIB
+          </p>
+        </div>
+        <div class="col-md-6">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.3842!2d106.7375!3d-6.2355!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69e5f5f5f5f5f5%3A0x9b9b9b9b9b9b9b9b!2sKlinik%20Harapan%20Sehat!5e0!3m2!1sid!2sid!4v1700000000000" 
+            width="100%" height="350" style="border:0; border-radius:15px;" allowfullscreen="" loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center">
+    <p class="mb-0">© 2025 Klinik Harapan Sehat - Semua Hak Cipta Dilindungi</p>
+  </footer>
+
+  <!-- Bootstrap + Mermaid JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' }
+    });
+  </script>
+</body>
+</html>
