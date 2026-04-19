@@ -175,54 +175,435 @@
   </script>
 </body>
 </html>
-.review-container {
-    max-width: 500px;
-    font-family: Arial, sans-serif;
-    border: 1px solid #ddd;
-    padding: 20px;
-    border-radius: 10px;
-}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Ulasan Produk</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* Logika Bintang Terbalik untuk CSS Hover */
-.star-rating {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    margin-bottom: 15px;
-}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-.star-rating input { display: none; }
+        .review-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
 
-.star-rating label {
-    font-size: 30px;
-    color: #ccc;
-    cursor: pointer;
-    transition: 0.2s;
-}
+        .review-header {
+            padding: 24px 24px 0;
+            border-bottom: 1px solid #eee;
+        }
 
-.star-rating input:checked ~ label,
-.star-rating label:hover,
-.star-rating label:hover ~ label {
-    color: #ffcc00; /* Warna kuning emas khas Shopee/Google */
-}
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
 
-/* Styling Form */
-input[type="text"], textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
+        .product-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #f0f0f0;
+        }
 
-button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        .product-details h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
 
-button:hover { background-color: #218838; }
+        .product-seller {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stars {
+            display: flex;
+            gap: 4px;
+        }
+
+        .star {
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .star.active {
+            color: #ffa500;
+        }
+
+        .star:hover,
+        .star.active ~ .star {
+            color: #ffa500;
+        }
+
+        .rating-text {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .review-form {
+            padding: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            resize: vertical;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #ffa500;
+            box-shadow: 0 0 0 3px rgba(255,165,0,0.1);
+        }
+
+        .textarea-counter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .char-count {
+            font-weight: 500;
+        }
+
+        .char-count.warning {
+            color: #ff6b35;
+        }
+
+        .photo-upload {
+            border: 2px dashed #e9ecef;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fafbfc;
+        }
+
+        .photo-upload:hover,
+        .photo-upload.dragover {
+            border-color: #ffa500;
+            background: #fff8f0;
+        }
+
+        .photo-upload-icon {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 12px;
+        }
+
+        .upload-text {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .upload-subtext {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .photo-preview {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .photo-item {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-photo {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(255,165,0,0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            
+            .review-container {
+                border-radius: 8px;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="review-container">
+        <div class="review-header">
+            <div class="product-info">
+                <img src="[via.placeholder.com](https://via.placeholder.com/60x60/4F46E5/FFFFFF?text=Produk)" alt="Produk" class="product-image">
+                <div class="product-details">
+                    <h3>Headphone Wireless Sony WH-1000XM5</h3>
+                    <div class="product-seller">Toko Elektronik Official</div>
+                </div>
+            </div>
+            
+            <div class="rating-section">
+                <div class="stars" id="ratingStars">
+                    <span class="star" data-rating="1">★</span>
+                    <span class="star" data-rating="2">★</span>
+                    <span class="star" data-rating="3">★</span>
+                    <span class="star" data-rating="4">★</span>
+                    <span class="star" data-rating="5">★</span>
+                </div>
+                <div class="rating-text" id="ratingText">Tap untuk beri rating</div>
+            </div>
+        </div>
+
+        <form class="review-form" id="reviewForm">
+            <div class="form-group">
+                <label class="form-label" for="reviewTitle">Judul Ulasan</label>
+                <input type="text" class="form-control" id="reviewTitle" placeholder="Contoh: Kualitas suara mantap!" maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="reviewText">Ulasan Anda</label>
+                <textarea class="form-control" id="reviewText" rows="5" placeholder="Ceritakan pengalaman Anda menggunakan produk ini... Bagaimana kualitasnya? Apakah sesuai ekspektasi? Rekomendasi untuk pembeli lain?" maxlength="1000"></textarea>
+                <div class="textarea-counter">
+                    <span class="char-count" id="charCount">0/1000</span>
+                    <span>Beri ulasan lengkap dapat poin +50</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Foto/Video Produk (Opsional)</label>
+                <div class="photo-upload" id="photoUpload">
+                    <div class="photo-upload-icon">📷</div>
+                    <div class="upload-text">Tambahkan foto/video</div>
+                    <div class="upload-subtext">Maksimal 5 foto, format JPG/PNG/MP4</div>
+                    <div class="photo-preview" id="photoPreview"></div>
+                    <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display: none;">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>Kirim Ulasan</button>
+        </form>
+    </div>
+
+    <script>
+        // Rating Stars
+        const stars = document.querySelectorAll('.star');
+        const ratingText = document.getElementById('ratingText');
+        let currentRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                currentRating = parseInt(star.dataset.rating);
+                updateStars();
+                ratingText.textContent = `${currentRating} ${currentRating === 1 ? 'bintang' : 'bintang'}`;
+                checkFormValid();
+            });
+        });
+
+        function updateStars() {
+            stars.forEach((star, index) => {
+                if (index < currentRating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        // Character Counter
+        const reviewText = document.getElementById('reviewText');
+        const charCount = document.getElementById('charCount');
+
+        reviewText.addEventListener('input', () => {
+            const length = reviewText.value.length;
+            charCount.textContent = `${length}/1000`;
+            if (length > 900) {
+                charCount.classList.add('warning');
+            } else {
+                charCount.classList.remove('warning');
+            }
+            checkFormValid();
+        });
+
+        // Photo Upload
+        const photoUpload = document.getElementById('photoUpload');
+        const fileInput = document.getElementById('fileInput');
+        const photoPreview = document.getElementById('photoPreview');
+
+        photoUpload.addEventListener('click', () => fileInput.click());
+        photoUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            photoUpload.classList.add('dragover');
+        });
+        photoUpload.addEventListener('dragleave', () => {
+            photoUpload.classList.remove('dragover');
+        });
+        photoUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            photoUpload.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            Array.from(files).slice(0, 5).forEach(file => {
+                if (file.size > 10 * 1024 * 1024) return; // 10MB limit
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const photoItem = createPhotoItem(e.target.result);
+                    photoPreview.appendChild(photoItem);
+                    checkFormValid();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function createPhotoItem(src) {
+            const photoItem = document.createElement('div');
+            photoItem.className = 'photo-item';
+            photoItem.innerHTML = `
+                <img src="${src}" alt="Preview">
+                <button type="button" class="remove-photo" onclick="this.parentElement.remove(); checkFormValid();">×</button>
+            `;
+            return photoItem;
+        }
+
+        // Form Validation & Submit
+        const submitBtn = document.getElementById('submitBtn');
+        const form = document.getElementById('reviewForm');
+
+        function checkFormValid() {
+            const title = document.getElementById('reviewTitle').value.trim();
+            const hasRating = currentRating > 0;
+            const hasPhotos = photoPreview.children.length > 0;
+            const hasText = reviewText.value.trim().length > 10;
+
+            submitBtn.disabled = !(title || hasText || hasRating || hasPhotos);
+        }
+
+        form.addEventListener('input', checkFormValid);
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                rating: currentRating,
+                title: document.getElementById('reviewTitle').value,
+                review: reviewText.value,
+                photos: Array.from(photoPreview.querySelectorAll('img')).map(img => img.src)
+            };
+
+            console.log('Ulasan dikirim:', formData);
+            alert('✅ Ulasan berhasil dikirim! Terima kasih telah berbagi pengalaman.');
+            
+            // Reset form
+            form.reset();
+            currentRating = 0;
+            updateStars();
+            ratingText.textContent = 'Tap untuk beri rating';
+            photoPreview.innerHTML = '';
+            charCount.textContent = '0/1000';
+            submitBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>
