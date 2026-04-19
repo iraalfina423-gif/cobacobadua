@@ -607,106 +607,106 @@
     </script>
 </body>
 </html>
-.google-review-card {
-    max-width: 500px;
-    background: #fff;
-    border: 1px solid #dadce0;
-    border-radius: 8px;
-    padding: 16px;
-    font-family: 'Roboto', Arial, sans-serif;
-}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Style Review System</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8f9fa; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        
+        /* Form Styling */
+        .review-form { border-bottom: 2px solid #eee; padding-bottom: 20px; margin-bottom: 20px; }
+        h2 { font-size: 20px; color: #202124; }
+        
+        .star-input { display: flex; flex-direction: row-reverse; justify-content: flex-end; margin: 10px 0; }
+        .star-input input { display: none; }
+        .star-input label { font-size: 30px; color: #ddd; cursor: pointer; transition: 0.2s; }
+        .star-input input:checked ~ label, .star-input label:hover, .star-input label:hover ~ label { color: #fbbc04; }
 
-/* User Profile Section */
-.profile-section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-}
+        input[type="text"], textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #dadce0; border-radius: 8px; box-sizing: border-box; outline: none; }
+        input:focus, textarea:focus { border: 2px solid #1a73e8; }
+        
+        button { background-color: #1a73e8; color: white; border: none; padding: 10px 24px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
+        button:hover { background-color: #1765cc; }
 
-.avatar {
-    width: 32px;
-    height: 32px;
-    background: #1a73e8;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 12px;
-    font-weight: bold;
-}
+        /* Review List Styling */
+        .review-item { padding: 15px 0; border-bottom: 1px solid #eee; animation: fadeIn 0.5s; }
+        .review-header { display: flex; align-items: center; margin-bottom: 5px; }
+        .avatar { width: 35px; height: 35px; background: #5f6368; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-weight: bold; text-transform: uppercase; }
+        .user-name { font-weight: bold; font-size: 14px; }
+        .stars-display { color: #fbbc04; font-size: 14px; }
+        .comment-text { color: #3c4043; font-size: 14px; line-height: 1.5; margin-top: 5px; }
 
-.username { display: block; font-weight: 500; font-size: 14px; }
-.public-info { font-size: 12px; color: #70757a; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
 
-/* Star Rating System */
-.star-rating {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-start;
-    gap: 4px;
-    margin-bottom: 15px;
-}
+<div class="container">
+    <div class="review-form">
+        <h2>Tulis Ulasan</h2>
+        <div class="star-input">
+            <input type="radio" id="s5" name="rating" value="5"><label for="s5">★</label>
+            <input type="radio" id="s4" name="rating" value="4"><label for="s4">★</label>
+            <input type="radio" id="s3" name="rating" value="3"><label for="s3">★</label>
+            <input type="radio" id="s2" name="rating" value="2"><label for="s2">★</label>
+            <input type="radio" id="s1" name="rating" value="1"><label for="s1">★</label>
+        </div>
+        <input type="text" id="userName" placeholder="Nama Anda" required>
+        <textarea id="userComment" rows="3" placeholder="Bagikan detail pengalaman Anda..."></textarea>
+        <button onclick="addReview()">Posting</button>
+    </div>
 
-.star-rating input { display: none; }
-.star-rating label {
-    font-size: 28px;
-    color: #e8eaed;
-    cursor: pointer;
-}
+    <div id="reviewList">
+        <h2>Ulasan Pengguna</h2>
+        </div>
+</div>
 
-.star-rating input:checked ~ label,
-.star-rating label:hover,
-.star-rating label:hover ~ label {
-    color: #fbbc04;
-}
+<script>
+    function addReview() {
+        const name = document.getElementById('userName').value;
+        const comment = document.getElementById('userComment').value;
+        const rating = document.querySelector('input[name="rating"]:checked');
 
-/* Textarea */
-textarea {
-    width: 100%;
-    border: none;
-    border-bottom: 1px solid #dadce0;
-    resize: none;
-    padding: 8px 0;
-    font-size: 14px;
-    outline: none;
-    margin-bottom: 15px;
-}
+        if (!name || !comment || !rating) {
+            alert("Mohon isi nama, rating, dan ulasan Anda!");
+            return;
+        }
 
-textarea:focus { border-bottom: 2px solid #1a73e8; }
+        const reviewList = document.getElementById('reviewList');
+        
+        // Buat elemen ulasan baru
+        const newReview = document.createElement('div');
+        newReview.className = 'review-item';
+        
+        // Format bintang
+        let stars = '';
+        for(let i=0; i<rating.value; i++) { stars += '★'; }
+        for(let i=rating.value; i<5; i++) { stars += '☆'; }
 
-/* Buttons */
-.action-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 15px;
-}
+        newReview.innerHTML = `
+            <div class="review-header">
+                <div class="avatar">${name.charAt(0)}</div>
+                <div>
+                    <div class="user-name">${name}</div>
+                    <div class="stars-display">${stars}</div>
+                </div>
+            </div>
+            <div class="comment-text">${comment}</div>
+        `;
 
-.btn-post {
-    background-color: #1a73e8;
-    color: white;
-    border: none;
-    padding: 8px 24px;
-    border-radius: 4px;
-    font-weight: 500;
-    cursor: pointer;
-}
+        // Tambahkan ke daftar (di paling atas)
+        reviewList.insertBefore(newReview, reviewList.childNodes[2]);
 
-.btn-cancel {
-    background: none;
-    border: none;
-    color: #1a73e8;
-    padding: 8px 16px;
-    cursor: pointer;
-    font-weight: 500;
-}
+        // Reset form
+        document.getElementById('userName').value = '';
+        document.getElementById('userComment').value = '';
+        document.querySelector('input[name="rating"]:checked').checked = false;
+    }
+</script>
 
-.upload-btn label {
-    color: #70757a;
-    font-size: 13px;
-    cursor: pointer;
-    border: 1px solid #dadce0;
-    padding: 6px 12px;
-    border-radius: 20px;
-}
+</body>
+</html>
