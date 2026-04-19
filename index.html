@@ -608,90 +608,107 @@
 </body>
 </html>
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Sistem Ulasan Realtime</title>
+    <meta charset="UTF-8">
+    <title>Ulasan Publik Google Style</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
     <style>
-        body { font-family: Arial; max-width: 500px; margin: 20px auto; padding: 10px; }
-        .box { border: 1px solid #ddd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-        input, textarea { width: 100%; margin: 5px 0; padding: 8px; box-sizing: border-box; }
-        button { background: #1a73e8; color: white; border: none; padding: 10px; cursor: pointer; width: 100%; border-radius: 4px; }
-        .review-item { border-bottom: 1px solid #eee; padding: 10px 0; }
-        .review-name { font-weight: bold; color: #1a73e8; }
-        .review-stars { color: #fbbc04; }
+        body { font-family: Arial, sans-serif; background: #f1f3f4; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .card { background: white; width: 100%; max-width: 500px; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); margin-bottom: 20px; }
+        
+        /* Input Styling */
+        input, textarea, select { width: 100%; margin: 8px 0; padding: 12px; border: 1px solid #dadce0; border-radius: 4px; box-sizing: border-box; }
+        button { background: #1a73e8; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
+        button:hover { background: #1765cc; }
+
+        /* Review List Styling */
+        .review-item { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .user-info { display: flex; align-items: center; margin-bottom: 5px; }
+        .avatar { width: 30px; height: 30px; background: #5f6368; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-size: 12px; font-weight: bold; }
+        .stars { color: #fbbc04; margin: 2px 0; }
+        .comment { color: #3c4043; font-size: 14px; }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <h3>Tulis Ulasan</h3>
-    <input type="text" id="name" placeholder="Nama Anda">
-    <select id="rating">
-        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
-        <option value="4">⭐⭐⭐⭐ (4)</option>
-        <option value="3">⭐⭐⭐ (3)</option>
-        <option value="2">⭐⭐ (2)</option>
-        <option value="1">⭐ (1)</option>
-    </select>
-    <textarea id="comment" placeholder="Tulis komentar..."></textarea>
-    <button onclick="kirimUlasan()">Posting Ulasan</button>
-</div>
+    <div class="card">
+        <h3>Tulis Ulasan</h3>
+        <input type="text" id="nama" placeholder="Nama Anda">
+        <select id="rating">
+            <option value="5">⭐⭐⭐⭐⭐ (Sangat Bagus)</option>
+            <option value="4">⭐⭐⭐⭐ (Bagus)</option>
+            <option value="3">⭐⭐⭐ (Cukup)</option>
+            <option value="2">⭐⭐ (Buruk)</option>
+            <option value="1">⭐ (Sangat Buruk)</option>
+        </select>
+        <textarea id="pesan" rows="3" placeholder="Bagikan pengalaman Anda..."></textarea>
+        <button onclick="kirimKeDatabase()">Posting</button>
+    </div>
 
-<h3>Ulasan Pengguna Lain:</h3>
-<div id="daftarUlasan">Memuat ulasan...</div>
+    <div class="card">
+        <h3>Ulasan Pengguna</h3>
+        <div id="kontainer-ulasan">Memuat ulasan...</div>
+    </div>
 
 <script>
-    // GANTI INI dengan konfigurasi dari Firebase Console Anda!
+    // 1. GANTI dengan konfigurasi Firebase Anda sendiri!
     const firebaseConfig = {
         apiKey: "AIzaSy...",
         authDomain: "proyek-anda.firebaseapp.com",
-        databaseURL: "https://proyek-anda.firebaseio.com",
+        databaseURL: "https://proyek-anda-default-rtdb.firebaseio.com",
         projectId: "proyek-anda",
         storageBucket: "proyek-anda.appspot.com",
         messagingSenderId: "12345",
         appId: "1:12345:web:abcde"
     };
 
-    // Inisialisasi Firebase
+    // 2. Inisialisasi
     firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+    const db = firebase.database();
 
-    // FUNGSI 1: Mengirim Data ke Database
-    function kirimUlasan() {
-        const name = document.getElementById('name').value;
+    // 3. FUNGSI KIRIM DATA (Simpan ke Database)
+    function kirimKeDatabase() {
+        const nama = document.getElementById('nama').value;
         const rating = document.getElementById('rating').value;
-        const comment = document.getElementById('comment').value;
+        const pesan = document.getElementById('pesan').value;
 
-        if(name && comment) {
-            database.ref('ulasan/').push({
-                nama: name,
+        if (nama && pesan) {
+            db.ref('ulasan_publik').push({
+                user: nama,
                 bintang: rating,
-                pesan: comment,
-                waktu: Date.now()
+                teks: pesan,
+                tanggal: new Date().toLocaleString()
             });
-            alert("Ulasan terkirim!");
-            document.getElementById('comment').value = ""; // Kosongkan input
+            // Reset Form
+            document.getElementById('nama').value = "";
+            document.getElementById('pesan').value = "";
+            alert("Terima kasih! Ulasan Anda telah diposting.");
         } else {
-            alert("Isi nama dan komentar!");
+            alert("Harap isi nama dan ulasan.");
         }
     }
 
-    // FUNGSI 2: Menampilkan Data Secara Realtime untuk Orang Lain
-    database.ref('ulasan/').on('value', (snapshot) => {
-        const container = document.getElementById('daftarUlasan');
-        container.innerHTML = ""; // Bersihkan tampilan lama
+    // 4. FUNGSI TAMPILKAN DATA (Ambil dari Database secara Realtime)
+    db.ref('ulasan_publik').on('value', (snapshot) => {
+        const box = document.getElementById('kontainer-ulasan');
+        box.innerHTML = ""; // Bersihkan tampilan lama
         
-        snapshot.forEach((childSnapshot) => {
-            const data = childSnapshot.val();
-            let stars = "⭐".repeat(data.bintang);
+        snapshot.forEach((item) => {
+            const data = item.val();
+            const starIcon = "⭐".repeat(data.bintang);
             
-            container.innerHTML += `
+            box.innerHTML += `
                 <div class="review-item">
-                    <div class="review-name">${data.nama}</div>
-                    <div class="review-stars">${stars}</div>
-                    <div style="font-size: 14px;">${data.pesan}</div>
+                    <div class="user-info">
+                        <div class="avatar">${data.user.charAt(0)}</div>
+                        <strong>${data.user}</strong>
+                    </div>
+                    <div class="stars">${starIcon}</div>
+                    <div class="comment">${data.teks}</div>
+                    <small style="color: #70757a; font-size: 11px;">${data.tanggal}</small>
                 </div>
             `;
         });
