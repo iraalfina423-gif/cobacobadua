@@ -607,36 +607,106 @@
     </script>
 </body>
 </html>
-<div class="google-review-card">
-    <div class="profile-section">
-        <div class="avatar">JD</div>
-        <div class="user-info">
-            <span class="username">John Doe</span>
-            <span class="public-info">Mengulas secara publik</span>
-        </div>
-    </div>
+.google-review-card {
+    max-width: 500px;
+    background: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'Roboto', Arial, sans-serif;
+}
 
-    <div class="star-rating">
-        <input type="radio" id="star5" name="rating" value="5"><label for="star5">★</label>
-        <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
-        <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
-        <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
-        <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
-    </div>
+/* User Profile Section */
+.profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
 
-    <div class="input-container">
-        <textarea placeholder="Bagikan pengalaman Anda tentang tempat ini..."></textarea>
-    </div>
+.avatar {
+    width: 32px;
+    height: 32px;
+    background: #1a73e8;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-weight: bold;
+}
 
-    <div class="upload-btn">
-        <label for="file-upload">
-            <span class="icon">📷</span> Tambah Foto
-        </label>
-        <input id="file-upload" type="file" style="display:none;"/>
-    </div>
+.username { display: block; font-weight: 500; font-size: 14px; }
+.public-info { font-size: 12px; color: #70757a; }
 
-    <div class="action-buttons">
-        <button class="btn-cancel">Batal</button>
-        <button class="btn-post">Posting</button>
-    </div>
-</div>
+/* Star Rating System */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    gap: 4px;
+    margin-bottom: 15px;
+}
+
+.star-rating input { display: none; }
+.star-rating label {
+    font-size: 28px;
+    color: #e8eaed;
+    cursor: pointer;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #fbbc04;
+}
+
+/* Textarea */
+textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #dadce0;
+    resize: none;
+    padding: 8px 0;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 15px;
+}
+
+textarea:focus { border-bottom: 2px solid #1a73e8; }
+
+/* Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.btn-post {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: none;
+    border: none;
+    color: #1a73e8;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.upload-btn label {
+    color: #70757a;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid #dadce0;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
