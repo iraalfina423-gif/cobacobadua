@@ -183,6 +183,27 @@
     style F fill:#3498db,stroke:#2980b9,color:#fff
     style G fill:#e74c3c,stroke:#c0392b,color:#fff
         </div>
+    <div class="flowchart">
+    <div class="mermaid">
+          graph LR
+    %% Baris Pertama (Kiri ke Kanan)
+    A([Mulai]) --> B[Scan Barcode]
+    B --> C{Terdeteksi?}
+    C -- Tidak --> B
+    C -- Ya ----> D[Klik Link URL]
+    
+    %% Belokan Turun ke Baris Kedua
+    D --> E[Proses Memuat Web]
+    
+    %% Baris Kedua (Kiri ke Kanan)
+    E --> F[Halaman Utama Terbuka]
+    F --> G([Selesai])
+
+    style A fill:#2ecc71,stroke:#27ae60,color:#fff
+    style C fill:#f1c40f,stroke:#f39c12,color:#000
+    style F fill:#3498db,stroke:#2980b9,color:#fff
+    style G fill:#e74c3c,stroke:#c0392b,color:#fff
+        </div>
 
     <!-- Kontak & Lokasi -->
     <section id="kontak" class="my-5 bg-light p-5 rounded shadow">
